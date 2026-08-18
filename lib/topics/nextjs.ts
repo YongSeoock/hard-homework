@@ -180,4 +180,29 @@ export async function POST(request: Request) {
 }`,
     },
   ],
+  visuals: [
+    {
+      kind: "compare",
+      title: "렌더링 전략 비교",
+      leftHeader: "방식",
+      rightHeader: "특징",
+      rows: [
+        { label: "CSR", left: "클라이언트 렌더링", right: "브라우저에서 JS로 화면 구성, SEO·초기 로딩 불리" },
+        { label: "SSR", left: "서버 렌더링", right: "요청마다 서버가 HTML 생성, SEO 유리" },
+        { label: "SSG", left: "정적 생성", right: "빌드 시 HTML 생성, 가장 빠름, 동적 데이터에 약함" },
+        { label: "ISR", left: "증분 정적 재생성", right: "정적 + 주기적 재생성으로 최신 데이터 반영" }
+      ]
+    },
+    {
+      kind: "compare",
+      title: "서버 컴포넌트 vs 클라이언트 컴포넌트",
+      leftHeader: "서버 컴포넌트(기본)",
+      rightHeader: "클라이언트 컴포넌트(use client)",
+      rows: [
+        { label: "실행 위치", left: "서버에서 렌더링", right: "브라우저에서 렌더링" },
+        { label: "사용처", left: "데이터 조회·렌더링", right: "useState 등 상호작용·이벤트 필요 시" },
+        { label: "번들 크기", left: "작음 (서버에 남음)", right: "큼 (브라우저로 전송)" }
+      ]
+    }
+  ],
 };

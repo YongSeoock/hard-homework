@@ -159,4 +159,27 @@ JSON 외의 다른 설명은 하지 마. 형식을 지킬 수 없으면 아래 �
 주문한 상품이 일주일이 지나도 도착하지 않았습니다. 빨리 처리해주세요."`,
     },
   ],
+  visuals: [
+    {
+      kind: "compare",
+      title: "모호한 프롬프트 vs 구체적 프롬프트",
+      leftHeader: "모호함 (나쁨)",
+      rightHeader: "구체적 (좋음)",
+      rows: [
+        { label: "예시", left: "'요약해 줘'", right: "'아래 글을 3문장으로, 핵심 키워드 5개와 함께 요약해 줘'" },
+        { label: "결과", left: "의도와 다른 답변 가능성 높음", right: "의도한 형식·내용의 답변을 얻음" },
+        { label: "원칙", left: "문맥·역할·형식 미지정", right: "역할·목표·형식·예시 명시" }
+      ]
+    },
+    {
+      kind: "steps",
+      title: "좋은 프롬프트 작성 단계",
+      steps: [
+        { title: "역할 부여", description: "'너는 전문 번역가야' 등 system 메시지로 역할 지정" },
+        { title: "목표 명시", description: "무엇을, 몇 개까지 원하는지 구체적으로" },
+        { title: "예시 제공(few-shot)", description: "원하는 답변 형태의 예시 1~3개 포함" },
+        { title: "형식 지정·평가", description: "JSON/표 등 출력 형식 지정 후 결과 검토·반복" }
+      ]
+    }
+  ],
 };

@@ -189,4 +189,28 @@ print(squares)  # [1, 4, 9, 16, 25, 36]
 print(evens)    # [2, 4, 6]`,
     },
   ],
+  visuals: [
+    {
+      kind: "compare",
+      title: "Python vs Java",
+      leftHeader: "Python",
+      rightHeader: "Java",
+      rows: [
+        { label: "실행 방식", left: "인터프리터 (한 줄씩 실행)", right: "컴파일러 (전체를 기계어로 변환 후 실행)" },
+        { label: "타입", left: "동적 타이핑 (런타임에 결정)", right: "정적 타이핑 (컴파일 시 결정)" },
+        { label: "문법", left: "간결·짧음", right: "장황·명시적" },
+        { label: "실행 환경", left: "Python 인터프리터", right: "JVM 위에서 동작" }
+      ]
+    },
+    {
+      kind: "steps",
+      title: "파이썬 개발 흐름",
+      steps: [
+        { title: "가상환경 생성", description: "python -m venv venv — 프로젝트별 의존성 격리" },
+        { title: "패키지 설치", description: "pip install flask — 필요한 라이브러리 설치" },
+        { title: "코드 작성·실행", description: "main.py 작성 후 python main.py 로 실행" },
+        { title: "배포(선택)", description: "Gunicorn 등으로 서버 실행 또는 컨테이너화" }
+      ]
+    }
+  ],
 };

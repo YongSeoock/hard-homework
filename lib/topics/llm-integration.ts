@@ -156,4 +156,27 @@ print(response.choices[0].message.content)`,
   }'`,
     },
   ],
+  visuals: [
+    {
+      kind: "steps",
+      title: "LLM API 연동 흐름",
+      steps: [
+        { title: "API 키·클라이언트 준비", description: "OpenAI 등에서 키 발급, SDK/HTTP 클라이언트 준비" },
+        { title: "메시지 구성", description: "시스템·유저·어시스턴트 메시지로 요청 본문 작성" },
+        { title: "API 호출", description: "chat completions 등 엔드포인트로 요청 전송" },
+        { title: "응답 파싱", description: "생성된 텍스트를 앱에서 사용 (스트리밍 가능)" }
+      ]
+    },
+    {
+      kind: "compare",
+      title: "메시지 역할(messages)",
+      leftHeader: "역할",
+      rightHeader: "의미",
+      rows: [
+        { label: "system", left: "모델의 전반적인 지시·성격 부여", right: "예: '너는 친절한 비서다'" },
+        { label: "user", left: "사용자의 입력", right: "예: '오늘 날씨 알려줘'" },
+        { label: "assistant", left: "모델의 이전 응답 (대화 맥락 유지)", right: "예: '서울은 맑습니다'" }
+      ]
+    }
+  ],
 };

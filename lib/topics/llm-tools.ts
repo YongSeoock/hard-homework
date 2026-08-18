@@ -167,4 +167,27 @@ export const llmTools: Topic = {
     return "반복 한도를 초과하여 답변을 생성하지 못했습니다."`,
     },
   ],
+  visuals: [
+    {
+      kind: "steps",
+      title: "도구(Tool) 호출 루프",
+      steps: [
+        { title: "모델이 도구 호출 결정", description: "질문에 외부 정보/계산이 필요하다고 판단" },
+        { title: "앱이 도구 실행", description: "검색·계산기·API 등을 실제로 실행해 결과 확보" },
+        { title: "결과를 모델에 전달", description: "실행 결과를 메시지로 다시 보냄" },
+        { title: "모델이 최종 답변", description: "도구 결과를 반영해 사용자에게 답변" }
+      ]
+    },
+    {
+      kind: "compare",
+      title: "도구 없음 vs 도구 사용",
+      leftHeader: "도구 없음",
+      rightHeader: "도구 사용",
+      rows: [
+        { label: "최신 정보", left: "학습 시점까지만 앎", right: "검색 도구로 실시간 정보 획득" },
+        { label: "계산", left: "부정확할 수 있음", right: "계산기 도구로 정확한 결과" },
+        { label: "환각", left: "없는 사실을 지어냄 위험", right: "도구 결과 기반이라 감소" }
+      ]
+    }
+  ],
 };
