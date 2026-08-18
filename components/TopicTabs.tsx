@@ -21,6 +21,7 @@ function extractTerms(plain?: PlainSection[]): string[] {
 function highlightTerms(text: string, terms: string[]): ReactNode[] {
   const sorted = [...terms].sort((a, b) => b.length - a.length);
   let nodes: ReactNode[] = [text];
+  let keyCounter = 0;
   for (const term of sorted) {
     const next: ReactNode[] = [];
     for (const node of nodes) {
@@ -34,7 +35,7 @@ function highlightTerms(text: string, terms: string[]): ReactNode[] {
         continue;
       }
       for (let i = 0; i < parts.length; i++) {
-        if (i > 0) next.push(<strong key={`${term}-${i}`}>{term}</strong>);
+        if (i > 0) next.push(<strong key={keyCounter++}>{term}</strong>);
         if (parts[i]) next.push(parts[i]);
       }
     }
