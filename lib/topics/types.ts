@@ -37,6 +37,11 @@ export type Visual =
     }
   | { kind: "steps"; title: string; steps: VisualStep[] };
 
+export type PlainSection = {
+  title: string;
+  paragraphs: string[];
+};
+
 export type Topic = {
   slug: string;
   title: string;
@@ -47,4 +52,5 @@ export type Topic = {
   qa: QA[];
   code: CodeExample[];
   visuals?: Visual[];
+  plain?: PlainSection[];
 };

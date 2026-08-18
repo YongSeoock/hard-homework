@@ -5,6 +5,7 @@ import { topics, getTopic } from "@/lib/topics";
 import CodeBlock from "@/components/CodeBlock";
 import VisualBlock from "@/components/VisualBlock";
 import PythonRunner from "@/components/PythonRunner";
+import BoldText from "@/components/BoldText";
 
 export function generateStaticParams() {
   return topics.map((t) => ({ slug: t.slug }));
@@ -50,6 +51,22 @@ export default async function TopicPage({
         </span>
         <p className="summary">{topic.summary}</p>
       </div>
+
+      {topic.plain && topic.plain.length > 0 && (
+        <section className="section plain-section">
+          <h2>쉽게 풀어쓰기 (비전공자 눈높이)</h2>
+          {topic.plain.map((p, i) => (
+            <div className="plain-block" key={i}>
+              <h3>{p.title}</h3>
+              {p.paragraphs.map((text, j) => (
+                <p key={j}>
+                  <BoldText text={text} />
+                </p>
+              ))}
+            </div>
+          ))}
+        </section>
+      )}
 
       <section className="section">
         <h2>핵심 개념</h2>

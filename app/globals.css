@@ -466,3 +466,38 @@ a:hover {
   border-top: 1px solid var(--border);
   background: #f8fafc;
 }
+
+/* ---------- Plain (쉽게 풀어쓰기) ---------- */
+.plain-section {
+  background: linear-gradient(180deg, #fffbeb 0%, #ffffff 60%);
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  padding: 1.2rem 1.4rem;
+}
+
+.plain-section > h2 {
+  border-bottom: 2px solid #fcd34d;
+}
+
+.plain-block {
+  margin-bottom: 1.1rem;
+}
+
+.plain-block h3 {
+  font-size: 1rem;
+  color: #92400e;
+  margin-bottom: 0.35rem;
+}
+
+.plain-block p {
+  color: var(--text);
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.plain-block strong {
+  color: #92400e;
+  border-radius: 3px;
+  padding: 0 2px;
+  background: #fef3c7;
+}
