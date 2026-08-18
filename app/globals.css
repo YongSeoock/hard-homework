@@ -501,3 +501,49 @@ a:hover {
   padding: 0 2px;
   background: #fef3c7;
 }
+
+/* ---------- Tabs ---------- */
+.topic-tabs {
+  margin-top: 0.5rem;
+}
+
+.tab-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  border-bottom: 2px solid var(--border);
+  padding-top: 0.5rem;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 5;
+}
+
+.tab-btn {
+  border: 1px solid var(--border);
+  border-bottom: none;
+  background: var(--surface);
+  color: var(--text-muted);
+  padding: 0.55rem 1.1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 10px 10px 0 0;
+  transition: color 0.15s, background 0.15s;
+}
+
+.tab-btn:hover {
+  color: var(--text);
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.tab-panel {
+  padding-top: 1.2rem;
+  min-height: 30vh;
+}
