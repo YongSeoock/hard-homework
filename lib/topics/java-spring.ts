@@ -220,4 +220,27 @@ record User(Long id, String name) {
         └── java/com/example/myapp/     # 테스트 코드`,
     },
   ],
+  visuals: [
+    {
+      kind: "compare",
+      title: "Spring vs Spring Boot",
+      leftHeader: "Spring",
+      rightHeader: "Spring Boot",
+      rows: [
+        { label: "설정", left: "XML/설정 파일을 직접 구성", right: "자동 설정(auto-configuration)" },
+        { label: "서버", left: "WAS(Tomcat 등)를 별도 설치·배포", right: "내장 WAS 포함 (빠른 실행)" },
+        { label: "시작", left: "초기 구성에 시간 소요", right: "프로젝트 생성 즉시 개발 가능" }
+      ]
+    },
+    {
+      kind: "steps",
+      title: "Spring MVC 요청 처리 흐름",
+      steps: [
+        { title: "Controller", description: "클라이언트 요청을 받아 라우팅 (@RestController)" },
+        { title: "Service", description: "비즈니스 로직 처리 (트랜잭션 등)" },
+        { title: "Repository", description: "DB 접근 (JPA/MyBatis 등)" },
+        { title: "응답 반환", description: "처리 결과를 JSON 등으로 클라이언트에 반환" }
+      ]
+    }
+  ],
 };

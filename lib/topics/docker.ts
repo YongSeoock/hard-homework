@@ -174,4 +174,28 @@ volumes:
   db-data:`,
     },
   ],
+  visuals: [
+    {
+      kind: "compare",
+      title: "가상머신(VM) vs 컨테이너",
+      leftHeader: "VM",
+      rightHeader: "컨테이너",
+      rows: [
+        { label: "OS", left: "게스트 OS 전체 포함 (무거움)", right: "호스트 OS 커널 공유 (가벼움)" },
+        { label: "시작 속도", left: "수십 초~분", right: "수 초" },
+        { label: "격리 수준", left: "완전 격리 (하이퍼바이저)", right: "프로세스 수준 격리" },
+        { label: "이미지 크기", left: "수 GB", right: "수십~수백 MB" }
+      ]
+    },
+    {
+      kind: "steps",
+      title: "이미지 빌드 → 컨테이너 실행",
+      steps: [
+        { title: "Dockerfile 작성", description: "FROM/RUN/COPY/CMD 등으로 애플리케이션 패키징 정의" },
+        { title: "docker build", description: "이미지 생성 (docker build -t myapp .)" },
+        { title: "docker run", description: "컨테이너 실행 (docker run -p 8080:80 myapp)" },
+        { title: "배포(선택)", description: "docker push로 레지스트리에 올려 공유" }
+      ]
+    }
+  ],
 };

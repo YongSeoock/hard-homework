@@ -185,4 +185,28 @@ docker run -d --name my-postgres \\
 docker exec -it my-postgres psql -U postgres -d mydb`,
     },
   ],
+  visuals: [
+    {
+      kind: "compare",
+      title: "RDBMS vs NoSQL",
+      leftHeader: "RDBMS (PostgreSQL 등)",
+      rightHeader: "NoSQL (MongoDB 등)",
+      rows: [
+        { label: "데이터 구조", left: "테이블(행·열), 스키마 고정", right: "문서/키-값 등, 스키마 유연" },
+        { label: "관계", left: "JOIN으로 테이블 간 관계 표현", right: "테이블 간 관계 약함 또는 없음" },
+        { label: "트랜잭션", left: "ACID 보장 (금융 등)", right: "상황에 따라 다름 (최종 일관성)" },
+        { label: "적합", left: "정형 데이터·정합성 중요", right: "대용량·비정형·확장성 우선" }
+      ]
+    },
+    {
+      kind: "steps",
+      title: "트랜잭션 처리 흐름",
+      steps: [
+        { title: "BEGIN", description: "트랜잭션 시작" },
+        { title: "작업 수행", description: "INSERT/UPDATE 등 여러 쿼리 실행" },
+        { title: "COMMIT", description: "성공 시 변경사항 확정 저장" },
+        { title: "ROLLBACK(실패 시)", description: "실패 시 시작 전 상태로 되돌림" }
+      ]
+    }
+  ],
 };

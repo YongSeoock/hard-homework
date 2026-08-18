@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { topics, getTopic } from "@/lib/topics";
 import CodeBlock from "@/components/CodeBlock";
+import VisualBlock from "@/components/VisualBlock";
+import PythonRunner from "@/components/PythonRunner";
 
 export function generateStaticParams() {
   return topics.map((t) => ({ slug: t.slug }));
@@ -58,7 +60,7 @@ export default async function TopicPage({
               <p key={j}>{p}</p>
             ))}
             {c.keyPoints && (
-              <ul>
+              <ul className="keypoints">
                 {c.keyPoints.map((k, j) => (
                   <li key={j}>{k}</li>
                 ))}
@@ -67,6 +69,13 @@ export default async function TopicPage({
           </div>
         ))}
       </section>
+
+      {topic.visuals && topic.visuals.length > 0 && (
+        <section className="section">
+          <h2>한눈에 보기</h2>
+          <VisualBlock visuals={topic.visuals} />
+        </section>
+      )}
 
       <section className="section">
         <h2>예상 면접 Q&amp;A</h2>
@@ -84,7 +93,11 @@ export default async function TopicPage({
           <div className="code-example" key={i}>
             <div className="code-title">{ex.title}</div>
             {ex.description && <p className="code-desc">{ex.description}</p>}
-            <CodeBlock language={ex.language} code={ex.code} />
+            {ex.language === "python" ? (
+              <PythonRunner code={ex.code} title={ex.title} />
+            ) : (
+              <CodeBlock language={ex.language} code={ex.code} />
+            )}
           </div>
         ))}
       </section>

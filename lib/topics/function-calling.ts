@@ -194,4 +194,27 @@ result = run_function("search_products", {"price_max": 50000, "category": "러�
 print(result)`,
     },
   ],
-};
+    visuals: [
+      {
+        kind: "steps",
+        title: "Function Calling 5단계 흐름",
+        steps: [
+          { title: "함수 스키마 정의", description: "이름·설명·파라미터(JSON Schema)를 tools로 전달" },
+          { title: "모델이 tool_calls 반환", description: "사용할 함수와 인자를 JSON으로 결정" },
+          { title: "앱이 함수 실행", description: "실제 로직(날씨 조회 등)을 앱 쪽에서 실행" },
+          { title: "결과를 모델에 재전송", description: "실행 결과를 메시지로 다시 전달" },
+          { title: "모델이 최종 답변", description: "결과를 바탕으로 사용자에게 완성된 답변" }
+        ]
+      },
+      {
+        kind: "compare",
+        title: "Tool vs Function Calling",
+        leftHeader: "Tool (개념)",
+        rightHeader: "Function Calling (메커니즘)",
+        rows: [
+          { label: "의미", left: "LLM에 외부 기능을 연결하는 넓은 개념", right: "API에서 함수 호출을 주고받는 구체적 방식" },
+          { label: "역할", left: "'왜' 도구를 쓰는가", right: "'어떻게' 함수를 호출하는가" }
+        ]
+      }
+    ],
+  };

@@ -169,4 +169,28 @@ export default function Parent() {
 }`,
     },
   ],
+  visuals: [
+    {
+      kind: "compare",
+      title: "state vs props",
+      leftHeader: "state",
+      rightHeader: "props",
+      rows: [
+        { label: "소유", left: "컴포넌트 자기 자신이 관리", right: "부모가 전달" },
+        { label: "변경", left: "useState의 setter로 변경 가능", right: "읽기 전용(불변)" },
+        { label: "역할", left: "시간에 따라 변하는 데이터", right: "컴포넌트에 전달하는 데이터" },
+        { label: "예시", left: "카운터 숫자, 입력값, on/off", right: "name, items, onXxx 콜백" },
+      ],
+    },
+    {
+      kind: "steps",
+      title: "React 렌더링 흐름",
+      steps: [
+        { title: "state 변경", description: "setState 호출 (버튼 클릭 등 이벤트에서)" },
+        { title: "재렌더링 예약", description: "React가 컴포넌트 함수를 다시 실행" },
+        { title: "가상 DOM 비교", description: "이전 트리와 새 트리를 비교(diff)" },
+        { title: "실제 DOM 반영", description: "변경된 부분만 실제 DOM에 적용" },
+      ],
+    },
+  ],
 };

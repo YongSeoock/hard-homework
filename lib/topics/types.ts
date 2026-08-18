@@ -16,6 +16,27 @@ export type QA = {
   answer: string;
 };
 
+export type CompareRow = {
+  label: string;
+  left: string;
+  right: string;
+};
+
+export type VisualStep = {
+  title: string;
+  description: string;
+};
+
+export type Visual =
+  | {
+      kind: "compare";
+      title: string;
+      leftHeader: string;
+      rightHeader: string;
+      rows: CompareRow[];
+    }
+  | { kind: "steps"; title: string; steps: VisualStep[] };
+
 export type Topic = {
   slug: string;
   title: string;
@@ -25,4 +46,5 @@ export type Topic = {
   concepts: Concept[];
   qa: QA[];
   code: CodeExample[];
+  visuals?: Visual[];
 };
