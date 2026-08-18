@@ -46,7 +46,7 @@ export const react: Topic = {
     {
       heading: "재렌더링과 가상 DOM",
       paragraphs: [
-        "state가 바뀌면 컴포넌트 함수가 다시 실행되어 새로운 UI 트리를 만든다. 이전 트리와 비교해서(b재조정, reconciliation) 바뀐 부분만 실제 DOM에 반영한다.",
+        "state가 바뀌면 컴포넌트 함수가 다시 실행되어 새로운 UI 트리를 만든다. 이전 트리와 비교해서(재조정, reconciliation) 바뀐 부분만 실제 DOM에 반영한다.",
         "React는 '가상 DOM'이라는 가벼운 JavaScript 객체 트리를 사용해 실제 DOM 조작을 최소화한다. 실제 DOM 조작은 느리기 때문이다.",
       ],
       keyPoints: [
