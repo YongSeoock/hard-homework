@@ -154,10 +154,19 @@ export default function TopicTabs({ topic }: { topic: Topic }) {
               <div className="code-example" key={i}>
                 <div className="code-title">{ex.title}</div>
                 {ex.description && <p className="code-desc">{ex.description}</p>}
-                {ex.language === "python" ? (
+                {ex.language === "python" && ex.runnable !== false ? (
                   <PythonRunner code={ex.code} title={ex.title} />
                 ) : (
-                  <CodeBlock language={ex.language} code={ex.code} />
+                  <>
+                    <CodeBlock language={ex.language} code={ex.code} />
+                    {ex.runnable === false && (
+                      <p className="code-notice">
+                        실행 불가: 실제 OpenAI API 키와 네트워크가 필요한 예제입니다.
+                        브라우저 실행기(Pyodide)에는 openai 패키지가 없어 실행할 수
+                        없습니다. 로컬 환경에서 실행해 보세요.
+                      </p>
+                    )}
+                  </>
                 )}
               </div>
             ))}

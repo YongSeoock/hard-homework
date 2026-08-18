@@ -103,6 +103,7 @@ export const llmIntegration: Topic = {
     {
       title: "OpenAI 파이썬 라이브러리로 채팅 완성하기",
       description: "openai 라이브러리를 설치하고 기본 채팅 완성 요청을 보낸다.",
+      runnable: false,
       language: "python",
       code: `from openai import OpenAI
 
@@ -121,6 +122,7 @@ print(response.choices[0].message.content)`,
     {
       title: "temperature와 max_tokens 지정하기",
       description: "정확한 답변이 필요하면 temperature를 낮추고, 응답 길이는 max_tokens로 제한한다.",
+      runnable: false,
       language: "python",
       code: `from openai import OpenAI
 

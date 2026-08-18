@@ -3,6 +3,8 @@ export type CodeExample = {
   description?: string;
   language: string;
   code: string;
+  /** false면 브라우저(Pyodide)에서 실행 불가한 예제(외부 API/키 필요) — 실행기 대신 안내+코드블록으로 표시 */
+  runnable?: boolean;
 };
 
 export type Concept = {

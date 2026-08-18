@@ -127,6 +127,7 @@ tools = [
     {
       title: "전체 흐름: 모델 호출 → tool_calls 파싱 → 실행 → 재전송",
       description: "tool_calls가 오면 함수를 실행하고, 그 결과를 tool 메시지로 다시 보내 최종 답변을 받는다.",
+      runnable: false,
       language: "python",
       code: `import json
 from openai import OpenAI
