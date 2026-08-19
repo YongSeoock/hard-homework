@@ -20,6 +20,13 @@ export default function Home() {
           </Link>
           을 읽고 시작하세요. (비전공자 눈높이 설명이 왜 옳은지 + 2일 계획)
         </p>
+        <p className="sub" style={{ marginTop: "0.5rem" }}>
+          👉 모르는 게 생기면{" "}
+          <Link href="/ask">
+            <strong>질문하기</strong>
+          </Link>
+          에서 바로 물어보세요. (무료 · 즉시 답변)
+        </p>
       </div>
 
       <section className="category">
