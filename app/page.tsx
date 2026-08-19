@@ -37,7 +37,6 @@ export default function Home() {
           {qualification.map((t) => (
             <Link className="topic-card" href={`/topics/${t.slug}`} key={t.slug}>
               <span className="title">{t.title}</span>
-              <span className="summary">{t.summary}</span>
             </Link>
           ))}
         </div>
@@ -51,7 +50,6 @@ export default function Home() {
           {preferred.map((t) => (
             <Link className="topic-card" href={`/topics/${t.slug}`} key={t.slug}>
               <span className="title">{t.title}</span>
-              <span className="summary">{t.summary}</span>
             </Link>
           ))}
         </div>
