@@ -37,4 +37,4 @@
 ## Verification
 | Date | Status | Checks Passed | Failures |
 |------|--------|---------------|----------|
-| — | not-run | — | — |
+| 2026-08-19 | passed | 5/5 | None |
