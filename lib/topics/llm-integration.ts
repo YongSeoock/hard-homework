@@ -103,6 +103,7 @@ export const llmIntegration: Topic = {
     {
       title: "OpenAI 파이썬 라이브러리로 채팅 완성하기",
       description: "openai 라이브러리를 설치하고 기본 채팅 완성 요청을 보낸다.",
+      runnable: false,
       language: "python",
       code: `from openai import OpenAI
 
@@ -121,6 +122,7 @@ print(response.choices[0].message.content)`,
     {
       title: "temperature와 max_tokens 지정하기",
       description: "정확한 답변이 필요하면 temperature를 낮추고, 응답 길이는 max_tokens로 제한한다.",
+      runnable: false,
       language: "python",
       code: `from openai import OpenAI
 
@@ -176,6 +178,30 @@ print(response.choices[0].message.content)`,
         { label: "system", left: "모델의 전반적인 지시·성격 부여", right: "예: '너는 친절한 비서다'" },
         { label: "user", left: "사용자의 입력", right: "예: '오늘 날씨 알려줘'" },
         { label: "assistant", left: "모델의 이전 응답 (대화 맥락 유지)", right: "예: '서울은 맑습니다'" }
+      ]
+    }
+  ],
+  plain: [
+    {
+      title: "대화 상대로 이해하는 LLM",
+      paragraphs: [
+        "**LLM(대규모 언어 모델)**은 글을 엄청나게 많이 읽어서 '다음에 올 단어'를 예측하는 대화 상대입니다. 질문을 보내면 그 예측을 이어 붙여 답변을 만듭니다.",
+        "**연동(통합)**은 내 프로그램이 정해진 형식으로 그 상대에게 질문을 보내고 답변을 받아 쓰는 것입니다.",
+        "모델은 학습된 시점까지의 지식만 알기 때문에, 최신 정보는 따로 제공해 주어야 합니다."
+      ]
+    },
+    {
+      title: "편지 형식으로 이해하는 메시지",
+      paragraphs: [
+        "**API**는 정해진 규칙으로 편지를 주고받는 것입니다. 요청 편지에 역할 구분을 담아 보냅니다.",
+        "**system**은 상대에게 주는 역할 설명서이고, **user**는 내가 보내는 질문, **assistant**는 상대의 이전 답변입니다. assistant를 다시 보내면 대화를 이어 갑니다."
+      ]
+    },
+    {
+      title: "다이얼로 이해하는 파라미터",
+      paragraphs: [
+        "**temperature**는 답변의 창의성 다이얼입니다. 낮추면 정확하고 보수적으로, 높이면 다양하고 창의적으로 답합니다.",
+        "**max_tokens**는 답변의 최대 길이 제한입니다. **스트리밍**은 답변이 완성되기를 기다리지 않고, 글자가 써지는 대로 받아 보는 것입니다(채팅처럼)."
       ]
     }
   ],

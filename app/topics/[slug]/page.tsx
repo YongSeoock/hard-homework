@@ -2,9 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { topics, getTopic } from "@/lib/topics";
-import CodeBlock from "@/components/CodeBlock";
-import VisualBlock from "@/components/VisualBlock";
-import PythonRunner from "@/components/PythonRunner";
+import TopicTabs from "@/components/TopicTabs";
 
 export function generateStaticParams() {
   return topics.map((t) => ({ slug: t.slug }));
@@ -51,56 +49,7 @@ export default async function TopicPage({
         <p className="summary">{topic.summary}</p>
       </div>
 
-      <section className="section">
-        <h2>핵심 개념</h2>
-        {topic.concepts.map((c, i) => (
-          <div className="concept" key={i}>
-            <h3>{c.heading}</h3>
-            {c.paragraphs.map((p, j) => (
-              <p key={j}>{p}</p>
-            ))}
-            {c.keyPoints && (
-              <ul className="keypoints">
-                {c.keyPoints.map((k, j) => (
-                  <li key={j}>{k}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
-      </section>
-
-      {topic.visuals && topic.visuals.length > 0 && (
-        <section className="section">
-          <h2>한눈에 보기</h2>
-          <VisualBlock visuals={topic.visuals} />
-        </section>
-      )}
-
-      <section className="section">
-        <h2>예상 면접 Q&amp;A</h2>
-        {topic.qa.map((q, i) => (
-          <div className="qa-item" key={i}>
-            <div className="q">{q.question}</div>
-            <div className="a">{q.answer}</div>
-          </div>
-        ))}
-      </section>
-
-      <section className="section">
-        <h2>코드 예제</h2>
-        {topic.code.map((ex, i) => (
-          <div className="code-example" key={i}>
-            <div className="code-title">{ex.title}</div>
-            {ex.description && <p className="code-desc">{ex.description}</p>}
-            {ex.language === "python" ? (
-              <PythonRunner code={ex.code} title={ex.title} />
-            ) : (
-              <CodeBlock language={ex.language} code={ex.code} />
-            )}
-          </div>
-        ))}
-      </section>
+      <TopicTabs topic={topic} />
 
       <nav className="footer-nav">
         {prev ? (
