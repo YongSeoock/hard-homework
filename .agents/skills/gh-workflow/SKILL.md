@@ -74,3 +74,7 @@ AI 에이전트는 규칙을 수동으로 적용하거나 파일을 직접 타�
 ### 6. 현황 조회: `/gh-status-issue [N]`
 * **Agent Action**: `bun .agents/skills/gh-workflow/scripts/workflow.ts status` 실행
 * **내부 처리**: 모든 이슈의 상태 및 진척률 요약 출력.
+
+### 7. 메인 브랜치 복귀: `/gh-go-main`
+* **Agent Action**: `bun .agents/skills/gh-workflow/scripts/workflow.ts go-main` 실행
+* **내부 처리**: Git Clean 확인 $\rightarrow$ 현재 브랜치가 이슈 브랜치(`issue_#N`)인지 확인 $\rightarrow$ 기본 브랜치(main) 감지(`gh repo view`) $\rightarrow$ 미푸시 커밋 경고 $\rightarrow$ `git fetch` 후 기본 브랜치 전환 및 `--ff-only` 동기화 $\rightarrow$ 연결된 PR 상태 및 브랜치 정리 팁 안내.

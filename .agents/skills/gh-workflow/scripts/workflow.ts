@@ -604,6 +604,81 @@ resolved: #${targetIssue}
   },
 
   // ----------------------------------------
+  // GO-MAIN
+  // ----------------------------------------
+  'go-main': () => {
+    // 1) Git Clean 검사 (start와 동일한 안전 정책)
+    if (!isGitClean()) {
+      console.error('❌ 에러: Working tree가 깨끗하지 않습니다. (커밋되지 않은 변경사항 존재)');
+      console.error('⚠️ [보안/안정성 지침] AI 에이전트는 절대로 임의로 git stash/commit/reset 명령을 수행하지 마세요.');
+      console.error('👉 사용자에게 먼저 현 환경을 커밋, stash, 또는 푸시하여 정돈해 달라고 즉시 안내하고 작업을 중단하세요.');
+      process.exit(1);
+    }
+
+    // 2) 기본 브랜치 감지 (main 또는 원격 기본 브랜치)
+    let defaultBranch = 'main';
+    try {
+      const repoInfo = JSON.parse(runCmd('gh', ['repo', 'view', '--json', 'defaultBranchRef']));
+      if (repoInfo && repoInfo.defaultBranchRef) {
+        defaultBranch = repoInfo.defaultBranchRef.name;
+      }
+    } catch {
+      console.log(`  ⚠️ 기본 브랜치 감지 실패. 기본값인 '${defaultBranch}' 브랜치를 사용합니다.`);
+    }
+
+    // 3) 현재 브랜치 확인
+    const currentBranch = runCmd('git', ['branch', '--show-current']);
+    if (currentBranch === defaultBranch) {
+      console.log(`✅ 이미 '${defaultBranch}' 브랜치에 있습니다.`);
+      return;
+    }
+    if (!/^issue_(?:#)?\d+$/.test(currentBranch)) {
+      console.error(`❌ 에러: 현재 브랜치(${currentBranch})가 이슈 브랜치(issue_#N)가 아니어서 자동 전환을 중단합니다.`);
+      console.error('  직접 git checkout 명령으로 원하는 브랜치로 이동해 주세요.');
+      process.exit(1);
+    }
+
+    // 4) origin 미푸시 커밋 경고 (PR 제출 후에는 정상적으로 0이어야 함)
+    try {
+      const unpushed = parseInt(runCmd('git', ['rev-list', '@{u}..HEAD', '--count']), 10);
+      if (unpushed > 0) {
+        console.warn(`⚠️ 경고: '${currentBranch}'에 아직 origin으로 푸시되지 않은 커밋 ${unpushed}개가 있습니다.`);
+        console.warn('  PR 제출(pr --submit) 이후 상태인지 먼저 확인해 주세요.');
+      }
+    } catch {
+      // 업스트림 미설정 등 — 무시 (커밋 이력은 보존됨)
+    }
+
+    // 5) 기본 브랜치 전환 + 원격 최신 동기화
+    console.log(`🌿 '${currentBranch}' → '${defaultBranch}' 브랜치로 전환합니다.`);
+    try {
+      runCmd('git', ['fetch', 'origin']);
+      runCmd('git', ['checkout', defaultBranch]);
+      runCmd('git', ['merge', '--ff-only', `origin/${defaultBranch}`]);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.error(`❌ 에러: 브랜치 전환/동기화에 실패했습니다: ${message}`);
+      console.error('  [참고] 로컬 기본 브랜치가 원격과 분기된 경우(로컬 커밋 존재) --ff-only 병합이 실패할 수 있습니다.');
+      process.exit(1);
+    }
+
+    // 6) 직전 이슈의 PR 상태 안내 및 브랜치 정리 팁
+    const issueNum = currentBranch.replace(/^issue_(?:#)?(\d+)$/, '$1');
+    try {
+      const prRaw = runCmd('gh', ['pr', 'list', '--head', currentBranch, '--state', 'all', '--json', 'number,state,url', '-q', '.[0]'], true);
+      if (prRaw) {
+        const pr = JSON.parse(prRaw);
+        console.log(`🔗 PR 상태: ${pr.state} — ${pr.url}`);
+      }
+    } catch {
+      // PR 조회 실패 시 스킵
+    }
+    console.log(`💡 이슈 브랜치(${currentBranch})가 이미 병합(Merge)되었다면 'git branch -d ${currentBranch}'로 정리할 수 있습니다.`);
+
+    console.log(`✅ 이제 '${defaultBranch}' 브랜치에서 작업할 수 있습니다.`);
+  },
+
+  // ----------------------------------------
   // STATUS
   // ----------------------------------------
   status: () => {
@@ -696,6 +771,7 @@ async function main() {
     console.log('  bun run workflow continue');
     console.log('  bun run workflow verify');
     console.log('  bun run workflow pr [--submit] [--skip-verify]');
+    console.log('  bun run workflow go-main');
     console.log('  bun run workflow status');
     process.exit(1);
   }
