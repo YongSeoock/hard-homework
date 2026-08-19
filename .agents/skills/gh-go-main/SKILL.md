@@ -16,8 +16,8 @@ What it does:
 - Detects the default branch via `gh repo view` (falls back to `main`).
 - Only auto-switches when the current branch is an issue branch (`issue_#N`); otherwise refuses.
 - Warns if the issue branch has unpushed commits.
-- Fetches `origin` and fast-forwards the default branch (`--ff-only`).
-- Reports the linked PR state and a branch-cleanup tip.
+- Fetches `origin` and fast-forwards the default branch (`--ff-only`) — **even when already on the default branch**, so local is always synced to the latest merged PRs.
+- When switching from an issue branch, reports the linked PR state and a branch-cleanup tip.
 
 ## 🚨 SAFETY RULE
 If `go-main` fails because the working tree is dirty (`Working tree가 깨끗하지 않습니다`):

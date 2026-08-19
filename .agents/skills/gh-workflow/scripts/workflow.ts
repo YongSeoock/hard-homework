@@ -628,32 +628,37 @@ resolved: #${targetIssue}
 
     // 3) 현재 브랜치 확인
     const currentBranch = runCmd('git', ['branch', '--show-current']);
-    if (currentBranch === defaultBranch) {
-      console.log(`✅ 이미 '${defaultBranch}' 브랜치에 있습니다.`);
-      return;
-    }
-    if (!/^issue_(?:#)?\d+$/.test(currentBranch)) {
+    const alreadyOnDefault = currentBranch === defaultBranch;
+    if (!alreadyOnDefault && !/^issue_(?:#)?\d+$/.test(currentBranch)) {
       console.error(`❌ 에러: 현재 브랜치(${currentBranch})가 이슈 브랜치(issue_#N)가 아니어서 자동 전환을 중단합니다.`);
       console.error('  직접 git checkout 명령으로 원하는 브랜치로 이동해 주세요.');
       process.exit(1);
     }
 
-    // 4) origin 미푸시 커밋 경고 (PR 제출 후에는 정상적으로 0이어야 함)
-    try {
-      const unpushed = parseInt(runCmd('git', ['rev-list', '@{u}..HEAD', '--count']), 10);
-      if (unpushed > 0) {
-        console.warn(`⚠️ 경고: '${currentBranch}'에 아직 origin으로 푸시되지 않은 커밋 ${unpushed}개가 있습니다.`);
-        console.warn('  PR 제출(pr --submit) 이후 상태인지 먼저 확인해 주세요.');
+    // 4) origin 미푸시 커밋 경고 (이슈 브랜치 전환 시에만, PR 제출 후에는 정상적으로 0이어야 함)
+    if (!alreadyOnDefault) {
+      try {
+        const unpushed = parseInt(runCmd('git', ['rev-list', '@{u}..HEAD', '--count']), 10);
+        if (unpushed > 0) {
+          console.warn(`⚠️ 경고: '${currentBranch}'에 아직 origin으로 푸시되지 않은 커밋 ${unpushed}개가 있습니다.`);
+          console.warn('  PR 제출(pr --submit) 이후 상태인지 먼저 확인해 주세요.');
+        }
+      } catch {
+        // 업스트림 미설정 등 — 무시 (커밋 이력은 보존됨)
       }
-    } catch {
-      // 업스트림 미설정 등 — 무시 (커밋 이력은 보존됨)
     }
 
-    // 5) 기본 브랜치 전환 + 원격 최신 동기화
-    console.log(`🌿 '${currentBranch}' → '${defaultBranch}' 브랜치로 전환합니다.`);
+    // 5) 동기화 — 기본 브랜치에 있어도 fetch + ff-only로 최신화하여 항상 멱등하게 동작
+    console.log(
+      alreadyOnDefault
+        ? `🌿 '${defaultBranch}' 브랜치를 원격 최신 상태로 동기화합니다.`
+        : `🌿 '${currentBranch}' → '${defaultBranch}' 브랜치로 전환합니다.`
+    );
     try {
       runCmd('git', ['fetch', 'origin']);
-      runCmd('git', ['checkout', defaultBranch]);
+      if (!alreadyOnDefault) {
+        runCmd('git', ['checkout', defaultBranch]);
+      }
       runCmd('git', ['merge', '--ff-only', `origin/${defaultBranch}`]);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
@@ -662,18 +667,19 @@ resolved: #${targetIssue}
       process.exit(1);
     }
 
-    // 6) 직전 이슈의 PR 상태 안내 및 브랜치 정리 팁
-    const issueNum = currentBranch.replace(/^issue_(?:#)?(\d+)$/, '$1');
-    try {
-      const prRaw = runCmd('gh', ['pr', 'list', '--head', currentBranch, '--state', 'all', '--json', 'number,state,url', '-q', '.[0]'], true);
-      if (prRaw) {
-        const pr = JSON.parse(prRaw);
-        console.log(`🔗 PR 상태: ${pr.state} — ${pr.url}`);
+    // 6) 직전 이슈의 PR 상태 안내 및 브랜치 정리 팁 (이슈 브랜치에서 전환한 경우)
+    if (!alreadyOnDefault) {
+      try {
+        const prRaw = runCmd('gh', ['pr', 'list', '--head', currentBranch, '--state', 'all', '--json', 'number,state,url', '-q', '.[0]'], true);
+        if (prRaw) {
+          const pr = JSON.parse(prRaw);
+          console.log(`🔗 PR 상태: ${pr.state} — ${pr.url}`);
+        }
+      } catch {
+        // PR 조회 실패 시 스킵
       }
-    } catch {
-      // PR 조회 실패 시 스킵
+      console.log(`💡 이슈 브랜치(${currentBranch})가 이미 병합(Merge)되었다면 'git branch -d ${currentBranch}'로 정리할 수 있습니다.`);
     }
-    console.log(`💡 이슈 브랜치(${currentBranch})가 이미 병합(Merge)되었다면 'git branch -d ${currentBranch}'로 정리할 수 있습니다.`);
 
     console.log(`✅ 이제 '${defaultBranch}' 브랜치에서 작업할 수 있습니다.`);
   },
